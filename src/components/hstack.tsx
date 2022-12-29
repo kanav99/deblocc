@@ -14,10 +14,10 @@ const hstackStyle : React.CSSProperties = {
     height: '100%',
 }
 
-export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, children, ...props }) => {
+export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {
     if (flex) {
         return (
-            <div style={{...hstackStyle, width, height, flexGrow: 1 }}>
+            <div style={{...hstackStyle, width, height, flexGrow: 1, ...style  }}>
                 {React.Children.map(children, (child, index) => {
                     if (index === 0) return child;
                     let spacing2 = spacing || '10px';
@@ -32,7 +32,7 @@ export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, ch
           );
     }
     return (
-        <div style={{...hstackStyle, width, height }}>
+        <div style={{...hstackStyle, width, height, ...style  }}>
             {React.Children.map(children, (child, index) => {
                 if (index === 0) return child;
                 let spacing2 = spacing || '10px';

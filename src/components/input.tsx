@@ -6,9 +6,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const inputStyle = {
-    padding: '3px',
+    padding: '10px',
     fontFamily: 'Monospace',
     fontSize: '12px',
+    // border: '1px solid gray',
 }
 
 export const Input: React.FC<InputProps> = ({ flex, placeholder, ...props }) => {

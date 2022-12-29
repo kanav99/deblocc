@@ -13,10 +13,10 @@ const vstackStyle : React.CSSProperties = {
     width: '100%',
 }
 
-export const VStack: React.FC<VStackProps> = ({ height, width, spacing, flex, children, ...props }) => {
+export const VStack: React.FC<VStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {
   if (flex) {
     return (
-      <div style={{...vstackStyle, width, height, minHeight: height, flexGrow: 1 }}>
+      <div style={{...vstackStyle, width, height, minHeight: height, flexGrow: 1, ...style }}>
           {React.Children.map(children, (child, index) => {
               if (index === 0) return child;
               let spacing2 = spacing || '10px';
@@ -31,7 +31,7 @@ export const VStack: React.FC<VStackProps> = ({ height, width, spacing, flex, ch
     );
   }
   return (
-    <div style={{...vstackStyle, width, height, minHeight: height }}>
+    <div style={{...vstackStyle, width, height, minHeight: height, ...style }}>
         {React.Children.map(children, (child, index) => {
             if (index === 0) return child;
             let spacing2 = spacing || '10px';
