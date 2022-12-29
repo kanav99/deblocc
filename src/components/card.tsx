@@ -1,9 +1,11 @@
 import * as React from "react";
+import { defaultTheme } from "./theme";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     height?: string;
     width?: string;
     header?: string;
+    flex?: boolean;
 }
 
 const cardStyle : React.CSSProperties = {
@@ -17,13 +19,14 @@ const cardStyle : React.CSSProperties = {
 const cardHeaderStyle: React.CSSProperties = {
     position: 'absolute',
     marginTop: '-20px',
-    backgroundColor: '#dfdfdf',
+    backgroundColor: defaultTheme.color.background,
     padding: '0px 5px',
     fontFamily: 'monospace'
 }
 
-export const Card: React.FC<CardProps> = ({ header, children, style, ...props }) => {
-    return <div style={{...cardStyle, ...style}}>
+export const Card: React.FC<CardProps> = ({ header, children, style, flex, ...props }) => {
+    const additionalStyle = flex ? {flexGrow: 1} : {};
+    return <div style={{...cardStyle, ...style, ...additionalStyle}}>
         <div style={cardHeaderStyle}>{header}</div>
         {children}
     </div>;

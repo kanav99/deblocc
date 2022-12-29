@@ -15,24 +15,9 @@ const hstackStyle : React.CSSProperties = {
 }
 
 export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {
-    if (flex) {
-        return (
-            <div style={{...hstackStyle, width, height, flexGrow: 1, ...style  }}>
-                {React.Children.map(children, (child, index) => {
-                    if (index === 0) return child;
-                    let spacing2 = spacing || '10px';
-                    return (
-                        <>
-                            <div style={{ width: spacing2, height: '100%' }} />
-                            {child}
-                        </>
-                    );
-                })}      
-            </div>
-          );
-    }
+    const additionalStyle = flex ? {flexGrow: 1} : {};
     return (
-        <div style={{...hstackStyle, width, height, ...style  }}>
+        <div style={{...hstackStyle, ...additionalStyle, ...style, width, height, }}>
             {React.Children.map(children, (child, index) => {
                 if (index === 0) return child;
                 let spacing2 = spacing || '10px';

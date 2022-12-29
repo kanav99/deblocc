@@ -1,4 +1,5 @@
 import * as React from "react";
+import { defaultTheme } from "./theme";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
@@ -7,21 +8,15 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const buttonStyle = {
     padding: '8px',
-    fontFamily: 'Monospace',
+    fontFamily: defaultTheme.font.family,
     fontSize: '12px',
     backgroundColor: 'white',
 }
 
 export const Button: React.FC<ButtonProps> = ({ title, flex, ...props }) => {
-  if (flex) {
-    return (
-      <button style={{...buttonStyle, flexGrow: 1}} {...props}>
-        {title}
-      </button>
-    );
-  }
+  const additionalStyle = flex ? {flexGrow: 1} : {};
   return (
-    <button style={buttonStyle} {...props}>
+    <button style={{...buttonStyle, ...additionalStyle}} {...props}>
       {title}
     </button>
   );

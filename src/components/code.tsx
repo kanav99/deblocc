@@ -24,13 +24,14 @@ const lineNumberStyle : React.CSSProperties = {
     justifyContent: 'flex-end',
     paddingRight: '5px',
     backgroundColor: '#f5f5f5',
-    color: '#6c6c6c'
+    color: '#6c6c6c',
+    userSelect: 'none',
 }
 
 const containerStyle: React.CSSProperties = {
     backgroundColor: "white",
-    padding: "1px",
     // border: '1px solid gray',
+    overflow: 'scroll',
 }
 
 const lineContainerStyle: React.CSSProperties = {
