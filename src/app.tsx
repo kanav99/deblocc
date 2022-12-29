@@ -8,6 +8,9 @@ import { Code } from "./components/code";
 import { Card } from "./components/card";
 import { AssemblyCode, highlightAssembly, Label, Instruction } from "./grammar/assembly";
 import { TabCard, Tab } from "./components/tabcard";
+import { highlightStruct } from "./grammar/arch/avm";
+import { Struct } from './grammar/struct';
+import { defaultTheme } from "./components/theme";
 
 function highlight(code: string) {
   return code
@@ -30,9 +33,31 @@ const sampleAssemblyCode : AssemblyCode = [
 
 const sampleCode = `const a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\n`;
 
+const sampleStructs = [
+  {name: "point2d", fields: [{name: "x", type: "int"}, {name: "y", type: "int"}]},
+  {name: "point3d", fields: [{name: "x", type: "int"}, {name: "y", type: "int"}, {name: "z", type: "int"}]},
+];
+
+const StructListView = (props: {structs: Struct[]}) => {
+  const [selectedStruct, setSelectedStruct] = React.useState(0);
+  return <HStack flex>
+    <VStack style={{marginTop: '5px'}} spacing="3px">
+      {props.structs.map((struct, index) => {
+        return <HStack style={{fontFamily: defaultTheme.font.family}}>
+            <span style={{width: '5px'}}> {index === selectedStruct && ">"}</span>
+            <a className="undreline-link" onClick={() => setSelectedStruct(index)}>{struct.name}</a>
+          </HStack>
+      })}
+    </VStack>
+    <Code value={highlightStruct(props.structs[selectedStruct])}></Code>
+  </HStack>
+}
+
+
 export default () => {
   const [disassembly, setDisassembly] = React.useState(sampleAssemblyCode);
   const [code, setCode] = React.useState(sampleCode);
+  const [structs, setStructs] = React.useState(sampleStructs);
   
   const highlightedAssembly = highlightAssembly(disassembly);
   console.log(highlightedAssembly);
@@ -56,11 +81,11 @@ export default () => {
             <Code value={highlightedCode} />
           </Card>
           <TabCard flex>
-            <Tab header="symbols">
-              <Code value={"symbols"} />
-            </Tab>
             <Tab header="types">
-              <Code value={"types"} />
+              <StructListView structs={structs} />
+            </Tab>
+            <Tab header="symbols">
+              <Code value={"todo"} />
             </Tab>
           </TabCard>
         </VStack>
