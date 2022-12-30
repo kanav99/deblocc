@@ -1,10 +1,12 @@
 import * as React from "react";
+import { defaultTheme } from "./theme";
 
 interface HStackProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: string;
   width?: string;
   spacing?: string;
   flex?: boolean;
+  loading?: boolean;
 }
 
 const hstackStyle : React.CSSProperties = {
@@ -15,7 +17,7 @@ const hstackStyle : React.CSSProperties = {
     overflowY: 'auto',
 }
 
-export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {
+export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, children, style, loading, ...props }) => {
     const additionalStyle = flex ? {flexGrow: 1} : {};
     return (
         <div style={{...hstackStyle, ...additionalStyle, ...style, width, height, }} {...props}>
@@ -29,6 +31,9 @@ export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, ch
                     </>
                 );
             })}      
+            {loading && <div style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', color: 'white', fontFamily: defaultTheme.font.family}}>Loading...</div>
+            </div>}
         </div>
     );
 };

@@ -15,6 +15,7 @@ import { Body } from "./components/body";
 import { sampleAssemblyCode, sampleCode, sampleStructs } from "./sample"
 import { Modal } from "./components/modal";
 import { Text } from "./components/text";
+import { Dedaub } from "./grammar/tools/dedaub";
 
 const StructListView = (props: {structs: Struct[]}) => {
   const [selectedStruct, setSelectedStruct] = React.useState(0);
@@ -31,30 +32,52 @@ const StructListView = (props: {structs: Struct[]}) => {
   </HStack>
 }
 
+const decompilers = [
+  new Dedaub(),
+]
+
+const targets = [
+  "evm"
+]
 
 export default () => {
   const [disassembly, setDisassembly] = React.useState(sampleAssemblyCode);
   const [code, setCode] = React.useState(sampleCode);
   const [structs, setStructs] = React.useState(sampleStructs);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
-  
+  const [contractAddress, setContractAddress] = React.useState("");
+  const [isDecompiling, setIsDecompiling] = React.useState(false);
+  const [target, setTarget] = React.useState(0);
+
   const highlightedAssembly = highlightAssembly(disassembly);
-  console.log(highlightedAssembly);
   const highlightedCode = highlightCode(code);
+  
   return (
     <Body>
       <HStack flex>
         <Card header="load contract" flex>
           <HStack flex>
-            <Input placeholder="contract address..." flex/>
-            <Button title="decompile" />
+            <select onChange={e => {setTarget(parseInt(e.target.value))}}>
+              {targets.map((target, index) => {
+                return <option value={index}>{target}</option>
+              })}
+            </select>
+            <Input placeholder="contract address..." value={contractAddress} onChange={(e) => setContractAddress(e.target.value)} flex/>
+            <Button title="decompile" onClick={async () => {
+              setIsDecompiling(true);
+              const result = await decompilers[target].decompileByAddress(contractAddress);
+              setCode(result.code);
+              setIsDecompiling(false);
+              setDisassembly(result.assembly);
+              // setStructs(result.structs);
+            }}/>
           </HStack>
         </Card>
         <Card header="options">
           <Button  title="settings" onClick={() => setIsSettingsOpen(true)}/>
         </Card>
       </HStack>
-      <HStack flex>
+      <HStack loading={isDecompiling} flex>
         <VStack>
           <Card header="assembly" style={{resize: 'horizontal'}} flex>
             <Code value={highlightedAssembly} selectColor="#cefad0"/>
