@@ -17,13 +17,10 @@ export class Dedaub implements Decompiler {
 
         const md5 = res.substring(1, res.length - 1);
 
-        console.log("got md5");
-
         const decompilerLink = `/.netlify/functions/dedaub?md5=${md5}`;
         const decompiledJSON = await fetch(decompilerLink).then(res => res.json());
         const assembly = decompiledJSON.disassembled.split("\n").map((line : string) => line.split(":")[1].trim().split(' ').filter((x : string) => x !== ""));
 
-        console.log(assembly)
         return {
             assembly: assembly.map((line : string[]) => {
                 return {

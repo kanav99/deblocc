@@ -50,7 +50,7 @@ export const Code : React.FC<CodeProps> = ({ value, selectColor, ...props}) => {
         <VStack spacing="0px" style={containerStyle} flex {...props}>
             {lines.map((line, index) => {
                 const additionalStyle = ((index === selectedLine) && (selectColor)) ? {backgroundColor: '#cefad0'} : {};
-                return <HStack spacing="0" className="line-container" style={{...lineContainerStyle, ...additionalStyle}} onClick={() => setSelectedLine(index)}>
+                return <HStack key={`${index}`}spacing="0" className="line-container" style={{...lineContainerStyle, ...additionalStyle}} onClick={() => setSelectedLine(index)}>
                     <div className="code-line-numbers" style={lineNumberStyle}>{index + 1}</div>
                     <div style={codeStyle}>{line}</div>
                 </HStack>

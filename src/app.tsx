@@ -22,7 +22,7 @@ const StructListView = (props: {structs: Struct[]}) => {
   return <HStack flex>
     <VStack style={{marginTop: '5px'}} spacing="3px">
       {props.structs.map((struct, index) => {
-        return <HStack style={{fontFamily: defaultTheme.font.family}}>
+        return <HStack style={{fontFamily: defaultTheme.font.family}} key={`${index}`}>
             <span style={{width: '5px'}}> {index === selectedStruct && ">"}</span>
             <a className="undreline-link" onClick={() => setSelectedStruct(index)}>{struct.name}</a>
           </HStack>
@@ -75,23 +75,32 @@ export default () => {
               setNetwork(0);
             }}>
               {targets.map((target, index) => {
-                return <option style={{fontFamily: defaultTheme.font.family}} value={index}>{target}</option>
+                return <option key={`${index}`} style={{fontFamily: defaultTheme.font.family}} value={index}>{target}</option>
               })}
             </select>
             <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
               setNetwork(parseInt(e.target.value));
             }}>
               {networks[target].map((network, index) => {
-                return <option style={{fontFamily: defaultTheme.font.family}} value={index}>{network}</option>
+                return <option key={`${index}`} style={{fontFamily: defaultTheme.font.family}} value={index}>{network}</option>
               })}
             </select>
             <Input placeholder="contract address..." value={contractAddress} onChange={(e) => setContractAddress(e.target.value)} flex/>
             <Button title="decompile" onClick={async () => {
               setIsDecompiling(true);
-              const result = await decompilers[target][decompiler].decompileByAddress(contractAddress, networks[target][network]);
-              setCode(result.code);
-              setIsDecompiling(false);
-              setDisassembly(result.assembly);
+              try {
+                const result = await decompilers[target][decompiler].decompileByAddress(contractAddress, networks[target][network]);
+                setCode(result.code);
+                setIsDecompiling(false);
+                setDisassembly(result.assembly);
+              }
+              catch(e) {
+                console.log(e);
+                alert("Failed to decompile contract, check contract address and network. Check out console for more logs.")
+                setCode('');
+                setDisassembly([]);
+                setIsDecompiling(false);
+              }
               // setStructs(result.structs);
             }}/>
           </HStack>
@@ -125,13 +134,13 @@ export default () => {
           <VStack>
             <Card header="decompilers">
               {targets.map((target, index) => {
-                return <HStack>
+                return <HStack key={`${index}`}>
                     <Text>{target}: </Text>
                     <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
                       setDecompiler(parseInt(e.target.value));
                     }}>
                       {decompilers[index].map((decompiler, index) => {
-                        return <option style={{fontFamily: defaultTheme.font.family}} value={index}>{decompiler.name}</option>
+                        return <option key={`${index}`} style={{fontFamily: defaultTheme.font.family}} value={index}>{decompiler.name}</option>
                       })}
                     </select>
                   </HStack>
