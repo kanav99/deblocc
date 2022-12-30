@@ -46,8 +46,8 @@ const decompilers = [
 // for each target, we have a list of networks
 const networks = [
   [
+    "goerli",
     "mainnet",
-    "goerli"
   ]
 ]
 
@@ -102,7 +102,7 @@ export default () => {
       </HStack>
       <HStack loading={isDecompiling} flex>
         <VStack>
-          <Card header="disassembly" style={{resize: 'both'}} flex>
+          <Card header="disassembly" style={{resize: 'both', minWidth: '200px'}} flex>
             <Code value={highlightedAssembly} selectColor="#cefad0"/>
           </Card>
         </VStack>
