@@ -47,13 +47,13 @@ export default () => {
         </HStack>
       </Card>
       <HStack flex>
-        <VStack width="30%">
-          <Card header="assembly" flex>
+        <VStack>
+          <Card header="assembly" style={{resize: 'horizontal'}} flex>
             <Code value={highlightedAssembly} selectColor="#cefad0"/>
           </Card>
         </VStack>
         <VStack flex>
-          <Card style={{ height: "50%"}} header="source">
+          <Card style={{ height: "50%", resize: "vertical"}} header="source">
             <Code value={highlightedCode} selectColor="#cefad0"/>
           </Card>
           <TabCard flex>
