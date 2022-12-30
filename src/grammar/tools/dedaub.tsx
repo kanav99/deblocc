@@ -3,6 +3,7 @@ import { Decompiler, DecompilationResult } from './common'
 const INFURA_KEY = "918b3d31ca0141bb8fd76be2879394ae";
 
 export class Dedaub implements Decompiler {
+    name = "dedaub";
     async decompileByBytecode(bytecode: string): Promise<DecompilationResult> {
         const res = await fetch(`https://library.dedaub.com/api/on_demand/`, {
             method: 'POST',

@@ -21,7 +21,7 @@ export const Modal: React.FC<ModalProps> = ({show, children, onClose, ...props})
                         <div>{props.heading}</div>
                         <a className='undreline-link' onClick={onClose}>⨉</a>
                     </HStack>
-                    <VStack style={{paddingBottom: '10px', paddingLeft: '20px', paddingRight: '20px'}}>
+                    <VStack style={{paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px'}}>
                         {children}
                     </VStack>
                 </VStack>

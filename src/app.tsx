@@ -32,14 +32,18 @@ const StructListView = (props: {structs: Struct[]}) => {
   </HStack>
 }
 
-const decompilers = [
-  new Dedaub(),
-]
-
 const targets = [
   "evm"
 ]
 
+// for each target, we have a list of decompilers
+const decompilers = [
+  [
+    new Dedaub(),
+  ]
+]
+
+// for each target, we have a list of networks
 const networks = [
   [
     "mainnet",
@@ -56,6 +60,7 @@ export default () => {
   const [isDecompiling, setIsDecompiling] = React.useState(false);
   const [target, setTarget] = React.useState(0);
   const [network, setNetwork] = React.useState(0);
+  const [decompiler, setDecompiler] = React.useState(0);
 
   const highlightedAssembly = highlightAssembly(disassembly);
   const highlightedCode = highlightCode(code);
@@ -83,7 +88,7 @@ export default () => {
             <Input placeholder="contract address..." value={contractAddress} onChange={(e) => setContractAddress(e.target.value)} flex/>
             <Button title="decompile" onClick={async () => {
               setIsDecompiling(true);
-              const result = await decompilers[target].decompileByAddress(contractAddress, networks[target][network]);
+              const result = await decompilers[target][decompiler].decompileByAddress(contractAddress, networks[target][network]);
               setCode(result.code);
               setIsDecompiling(false);
               setDisassembly(result.assembly);
@@ -118,12 +123,25 @@ export default () => {
       <Modal show={isSettingsOpen} heading={'settings'} onClose={() => {setIsSettingsOpen(false)}}>
         <VStack style={{justifyContent: 'space-between'}}>
           <VStack>
-            <Text>Hello</Text>
+            <Card header="decompilers">
+              {targets.map((target, index) => {
+                return <HStack>
+                    <Text>{target}: </Text>
+                    <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
+                      setDecompiler(parseInt(e.target.value));
+                    }}>
+                      {decompilers[index].map((decompiler, index) => {
+                        return <option style={{fontFamily: defaultTheme.font.family}} value={index}>{decompiler.name}</option>
+                      })}
+                    </select>
+                  </HStack>
+              })}
+            </Card>
           </VStack>
-          <HStack style={{justifyContent: 'right'}}>
+          {/* <HStack style={{justifyContent: 'right'}}>
             <Button title="reset" />
             <Button title="save" />
-          </HStack>
+          </HStack> */}
         </VStack>
       </Modal>
     </Body>
