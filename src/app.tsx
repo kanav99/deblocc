@@ -40,12 +40,17 @@ export default () => {
   const highlightedCode = highlightCode(code);
   return (
     <Body>
-      <Card header="contract">
-        <HStack flex>
-          <Input placeholder="contract address..." flex/>
-          <Button title="decompile"/>
-        </HStack>
-      </Card>
+      <HStack flex>
+        <Card header="load contract" flex>
+          <HStack flex>
+            <Input placeholder="contract address..." flex/>
+            <Button title="decompile"/>
+          </HStack>
+        </Card>
+        <Card header="options">
+          <Button  title="settings"/>
+        </Card>
+      </HStack>
       <HStack flex>
         <VStack>
           <Card header="assembly" style={{resize: 'horizontal'}} flex>
