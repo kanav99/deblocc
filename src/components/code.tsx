@@ -50,13 +50,9 @@ export const Code : React.FC<CodeProps> = ({ value, ...props}) => {
     return (
         <VStack spacing="0px" style={containerStyle} flex>
             {lines.map((line, index) => <HStack style={lineContainerStyle}>
-                <div style={lineNumberStyle}>{index + 1}</div>
+                <div className="code-line-numbers" style={lineNumberStyle}>{index + 1}</div>
                 <div style={codeStyle}>{line}</div>
             </HStack>)}
-            <HStack style={lineContainerStyle}>
-                <div style={lineNumberStyle}>{numLines + 1}</div>
-                <div style={codeStyle}></div>
-            </HStack>
         </VStack>
     )
 }
