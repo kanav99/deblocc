@@ -67,7 +67,7 @@ export default () => {
   
   return (
     <Body>
-      <HStack style={{minHeight: '50px'}} flex>
+      <HStack style={{minHeight: '50px', maxHeight: '50px'}}>
         <Card header="load contract" flex>
           <HStack flex>
             <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
