@@ -7,7 +7,7 @@ export const Body : React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children
     return <VStack style={{
         backgroundColor: defaultTheme.color.background,
         padding: '10px',
-        minHeight: '98vh',
-        maxHeight: '98vh',
+        minHeight: '97vh',
+        maxHeight: '97vh',
     }} flex>{children}</VStack>
 }
