@@ -7,5 +7,5 @@ export type DecompilationResult = {
 
 export interface Decompiler {
     decompileByBytecode: (bytecode: string) => Promise<DecompilationResult>
-    decompileByAddress:  (address:  string) => Promise<DecompilationResult>;
+    decompileByAddress:  (address:  string, network: string) => Promise<DecompilationResult>;
 }

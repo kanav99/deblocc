@@ -40,6 +40,13 @@ const targets = [
   "evm"
 ]
 
+const networks = [
+  [
+    "mainnet",
+    "goerli"
+  ]
+]
+
 export default () => {
   const [disassembly, setDisassembly] = React.useState(sampleAssemblyCode);
   const [code, setCode] = React.useState(sampleCode);
@@ -48,6 +55,7 @@ export default () => {
   const [contractAddress, setContractAddress] = React.useState("");
   const [isDecompiling, setIsDecompiling] = React.useState(false);
   const [target, setTarget] = React.useState(0);
+  const [network, setNetwork] = React.useState(0);
 
   const highlightedAssembly = highlightAssembly(disassembly);
   const highlightedCode = highlightCode(code);
@@ -57,15 +65,25 @@ export default () => {
       <HStack flex>
         <Card header="load contract" flex>
           <HStack flex>
-            <select onChange={e => {setTarget(parseInt(e.target.value))}}>
+            <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
+              setTarget(parseInt(e.target.value));
+              setNetwork(0);
+            }}>
               {targets.map((target, index) => {
-                return <option value={index}>{target}</option>
+                return <option style={{fontFamily: defaultTheme.font.family}} value={index}>{target}</option>
+              })}
+            </select>
+            <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
+              setNetwork(parseInt(e.target.value));
+            }}>
+              {networks[target].map((network, index) => {
+                return <option style={{fontFamily: defaultTheme.font.family}} value={index}>{network}</option>
               })}
             </select>
             <Input placeholder="contract address..." value={contractAddress} onChange={(e) => setContractAddress(e.target.value)} flex/>
             <Button title="decompile" onClick={async () => {
               setIsDecompiling(true);
-              const result = await decompilers[target].decompileByAddress(contractAddress);
+              const result = await decompilers[target].decompileByAddress(contractAddress, networks[target][network]);
               setCode(result.code);
               setIsDecompiling(false);
               setDisassembly(result.assembly);
@@ -79,7 +97,7 @@ export default () => {
       </HStack>
       <HStack loading={isDecompiling} flex>
         <VStack>
-          <Card header="assembly" style={{resize: 'horizontal'}} flex>
+          <Card header="assembly" style={{resize: 'both'}} flex>
             <Code value={highlightedAssembly} selectColor="#cefad0"/>
           </Card>
         </VStack>

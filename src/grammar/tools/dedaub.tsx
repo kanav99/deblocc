@@ -36,8 +36,8 @@ export class Dedaub implements Decompiler {
         }
     }
 
-    async decompileByAddress(address: string): Promise<DecompilationResult> {
-        const res = await fetch(`https://mainnet.infura.io/v3/${INFURA_KEY}`, {
+    async decompileByAddress(address: string, network: string): Promise<DecompilationResult> {
+        const res = await fetch(`https://${network}.infura.io/v3/${INFURA_KEY}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
