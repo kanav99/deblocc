@@ -51,36 +51,60 @@ const networks = [
   ]
 ]
 
+const useCachedState = (key: string, defaultValue: any) => {
+  const [value, setValue] = React.useState(() => {
+    const cachedValue = localStorage.getItem(key);
+    if (cachedValue) {
+      return JSON.parse(cachedValue);
+    }
+    return defaultValue;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value]);
+
+  return [value, setValue];
+}
+
 export default () => {
-  const [disassembly, setDisassembly] = React.useState(sampleAssemblyCode);
-  const [code, setCode] = React.useState(sampleCode);
-  const [structs, setStructs] = React.useState(sampleStructs);
+  const [disassembly, setDisassembly] = useCachedState("disassembly", sampleAssemblyCode);
+  const [code, setCode] = useCachedState("code", sampleCode);
+  const [structs, setStructs] = useCachedState("structs", sampleStructs);
+  const [contractAddress, setContractAddress] = useCachedState("contractAddress", "");
+  const [target, setTarget] = useCachedState("target", 0);
+  const [network, setNetwork] = useCachedState("network", 0);
+  const [decompiler, setDecompiler] = useCachedState("decompiler", 0);
+  
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
-  const [contractAddress, setContractAddress] = React.useState("");
   const [isDecompiling, setIsDecompiling] = React.useState(false);
-  const [target, setTarget] = React.useState(0);
-  const [network, setNetwork] = React.useState(0);
-  const [decompiler, setDecompiler] = React.useState(0);
 
   const highlightedAssembly = highlightAssembly(disassembly);
   const highlightedCode = highlightCode(code);
+  console.log(network)
   
   return (
     <Body>
       <HStack style={{minHeight: '50px', maxHeight: '50px'}}>
         <Card header="load contract" flex>
           <HStack flex>
-            <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
-              setTarget(parseInt(e.target.value));
-              setNetwork(0);
-            }}>
+            <select style={{fontFamily: defaultTheme.font.family}} 
+              onChange={e => {
+                setTarget(parseInt(e.target.value));
+                setNetwork(0);
+              }}
+              value={target}
+            >
               {targets.map((target, index) => {
                 return <option key={`${index}`} style={{fontFamily: defaultTheme.font.family}} value={index}>{target}</option>
               })}
             </select>
-            <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
-              setNetwork(parseInt(e.target.value));
-            }}>
+            <select style={{fontFamily: defaultTheme.font.family}} 
+              onChange={e => {
+                setNetwork(parseInt(e.target.value));
+              }}
+              value={network}
+            >
               {networks[target].map((network, index) => {
                 return <option key={`${index}`} style={{fontFamily: defaultTheme.font.family}} value={index}>{network}</option>
               })}
@@ -136,9 +160,12 @@ export default () => {
               {targets.map((target, index) => {
                 return <HStack key={`${index}`}>
                     <Text>{target}: </Text>
-                    <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
-                      setDecompiler(parseInt(e.target.value));
-                    }}>
+                    <select style={{fontFamily: defaultTheme.font.family}} 
+                      onChange={e => {
+                        setDecompiler(parseInt(e.target.value));
+                      }}
+                      value={decompiler}
+                    >
                       {decompilers[index].map((decompiler, index) => {
                         return <option key={`${index}`} style={{fontFamily: defaultTheme.font.family}} value={index}>{decompiler.name}</option>
                       })}
