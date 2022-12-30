@@ -6,101 +6,13 @@ import { Input } from "./components/input";
 import "./styles.css";
 import { Code } from "./components/code";
 import { Card } from "./components/card";
-import { AssemblyCode, highlightAssembly, Label, Instruction } from "./grammar/assembly";
+import { highlightAssembly } from "./grammar/assembly";
 import { TabCard, Tab } from "./components/tabcard";
-import { highlightStruct } from "./grammar/arch/avm";
+import { highlightCode, highlightStruct } from "./grammar/arch/avm";
 import { Struct } from './grammar/struct';
 import { defaultTheme } from "./components/theme";
 import { Body } from "./components/body";
-
-function highlight(code: string) {
-  return code
-    .split("\n")
-    .map((line) => {
-        return <span style={{whiteSpace: 'pre'}}>{line}</span>;
-    })
-}
-
-const sampleAssemblyCode : AssemblyCode = [
-  {name: "square(int)"} as Label,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
-  {name: "square(int)"} as Label,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
-  {name: "square(int)"} as Label,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
-  {name: "square(int)"} as Label,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
-  {name: "square(int)"} as Label,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
-  {name: "square(int)"} as Label,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
-  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
-]
-
-const sampleCode = `int square(int num) {
-  return num * num;
-}
-
-int square(int num) {
-  return num * num;
-}
-
-int square(int num) {
-  return num * num;
-}
-
-int square(int num) {
-  return num * num;
-}
-
-int square(int num) {
-  return num * num;
-}
-
-int square(int num) {
-  return num * num;
-}
-`;
-
-const sampleStructs = [
-  {name: "point2d", fields: [{name: "x", type: "int"}, {name: "y", type: "int"}]},
-  {name: "point3d", fields: [{name: "x", type: "int"}, {name: "y", type: "int"}, {name: "z", type: "int"}]},
-];
+import { sampleAssemblyCode, sampleCode, sampleStructs } from "./sample"
 
 const StructListView = (props: {structs: Struct[]}) => {
   const [selectedStruct, setSelectedStruct] = React.useState(0);
@@ -125,7 +37,7 @@ export default () => {
   
   const highlightedAssembly = highlightAssembly(disassembly);
   console.log(highlightedAssembly);
-  const highlightedCode = highlight(code);
+  const highlightedCode = highlightCode(code);
   return (
     <Body>
       <Card header="contract">
@@ -137,12 +49,12 @@ export default () => {
       <HStack flex>
         <VStack width="30%">
           <Card header="assembly" flex>
-            <Code value={highlightedAssembly} />
+            <Code value={highlightedAssembly} selectColor="#cefad0"/>
           </Card>
         </VStack>
         <VStack flex>
           <Card style={{ height: "50%"}} header="source">
-            <Code value={highlightedCode} />
+            <Code value={highlightedCode} selectColor="#cefad0"/>
           </Card>
           <TabCard flex>
             <Tab header="types">

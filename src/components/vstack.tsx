@@ -17,7 +17,7 @@ const vstackStyle : React.CSSProperties = {
 export const VStack: React.FC<VStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {
   const additionalStyle = flex ? {flexGrow: 1} : {};
   return (
-    <div style={{...vstackStyle, ...additionalStyle, ...style, width, height }}>
+    <div style={{...vstackStyle, ...additionalStyle, ...style, width, height }} {...props}>
         {React.Children.map(children, (child, index) => {
             if (index === 0) return child;
             let spacing2 = spacing || '10px';

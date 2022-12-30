@@ -27,7 +27,7 @@ const cardHeaderStyle: React.CSSProperties = {
 
 export const Card: React.FC<CardProps> = ({ header, children, style, flex, ...props }) => {
     const additionalStyle = flex ? {flexGrow: 1} : {};
-    return <div style={{...cardStyle, ...style, ...additionalStyle}}>
+    return <div style={{...cardStyle, ...style, ...additionalStyle}} {...props}>
         <div style={cardHeaderStyle}>{header}</div>
         {children}
     </div>;

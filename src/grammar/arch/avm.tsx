@@ -14,3 +14,12 @@ export const highlightStruct = (struct: Struct) => {
         <>{'}'}</>
     ]
 }
+
+export const highlightCode = (code: string) => {
+    return code
+      .split("\n")
+      .map((line) => {
+          return <span style={{whiteSpace: 'pre'}}>{line}</span>;
+      })
+}
+  

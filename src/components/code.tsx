@@ -4,6 +4,7 @@ import { VStack } from "./vstack";
 
 interface CodeProps extends React.HTMLAttributes<HTMLDivElement> {
     value: string | React.ReactNode[];
+    selectColor?: string;
 }
 
 // const codeFont = 'SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace';
@@ -37,20 +38,23 @@ const lineContainerStyle: React.CSSProperties = {
     overflowY: 'visible'
 }
 
-export const Code : React.FC<CodeProps> = ({ value, ...props}) => {
+export const Code : React.FC<CodeProps> = ({ value, selectColor, ...props}) => {
     let lines : React.ReactNode[] | string[] = [];
     if (typeof value === 'string') {
         lines = value.split('\n');
     } else {
         lines = value;
     }
-    const numLines = lines.length;
+    const [selectedLine, setSelectedLine] = React.useState<number>(-1);
     return (
-        <VStack spacing="0px" style={containerStyle} flex>
-            {lines.map((line, index) => <HStack style={lineContainerStyle}>
-                <div className="code-line-numbers" style={lineNumberStyle}>{index + 1}</div>
-                <div style={codeStyle}>{line}</div>
-            </HStack>)}
+        <VStack spacing="0px" style={containerStyle} flex {...props}>
+            {lines.map((line, index) => {
+                const additionalStyle = ((index === selectedLine) && (selectColor)) ? {backgroundColor: '#cefad0'} : {};
+                return <HStack className="line-container" style={{...lineContainerStyle, ...additionalStyle}} onClick={() => setSelectedLine(index)}>
+                    <div className="code-line-numbers" style={lineNumberStyle}>{index + 1}</div>
+                    <div style={codeStyle}>{line}</div>
+                </HStack>
+            })}
         </VStack>
     )
 }

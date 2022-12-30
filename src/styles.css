@@ -1,20 +1,5 @@
 body {
-    /* background-color: rgb(223, 223, 223);*/
-    /* min-height: 100vh; */
-    /* padding: 50px; */
     margin: 0;
-}
-
-html, body {
-    /* height: 100%; */
-    /* max-height: 100%; */
-}
-
-#root {
-    /* max-height: 100%;  */
-    /* min-height: 100%;  */
-    /* display: flex; */
-    /* padding: 0; */
 }
 
 .undreline-link:hover {
@@ -30,4 +15,8 @@ html, body {
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
+}
+
+.line-container:hover {
+    background-color: #f5f5f5;
 }
