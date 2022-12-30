@@ -72,7 +72,30 @@ const sampleAssemblyCode : AssemblyCode = [
   {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
 ]
 
-const sampleCode = `const a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\nconst a = 1;\n`;
+const sampleCode = `int square(int num) {
+  return num * num;
+}
+
+int square(int num) {
+  return num * num;
+}
+
+int square(int num) {
+  return num * num;
+}
+
+int square(int num) {
+  return num * num;
+}
+
+int square(int num) {
+  return num * num;
+}
+
+int square(int num) {
+  return num * num;
+}
+`;
 
 const sampleStructs = [
   {name: "point2d", fields: [{name: "x", type: "int"}, {name: "y", type: "int"}]},

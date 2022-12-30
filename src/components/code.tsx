@@ -19,6 +19,7 @@ const lineNumberStyle : React.CSSProperties = {
     fontWeight: "lighter",
     fontSize: "13px",
     width: '30px',
+    minWidth: '30px',
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '5px',
