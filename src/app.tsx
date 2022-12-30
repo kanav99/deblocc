@@ -67,7 +67,7 @@ export default () => {
   
   return (
     <Body>
-      <HStack flex>
+      <HStack style={{minHeight: '50px'}} flex>
         <Card header="load contract" flex>
           <HStack flex>
             <select style={{fontFamily: defaultTheme.font.family}} onChange={e => {
@@ -102,7 +102,7 @@ export default () => {
       </HStack>
       <HStack loading={isDecompiling} flex>
         <VStack>
-          <Card header="assembly" style={{resize: 'both'}} flex>
+          <Card header="disassembly" style={{resize: 'both'}} flex>
             <Code value={highlightedAssembly} selectColor="#cefad0"/>
           </Card>
         </VStack>
