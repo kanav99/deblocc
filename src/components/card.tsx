@@ -14,6 +14,7 @@ const cardStyle : React.CSSProperties = {
     marginTop: '4px',
     borderRadius: '5px',
     display: 'flex',
+    overflowY: 'auto',
 }
 
 const cardHeaderStyle: React.CSSProperties = {

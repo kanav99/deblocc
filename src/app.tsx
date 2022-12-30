@@ -11,6 +11,7 @@ import { TabCard, Tab } from "./components/tabcard";
 import { highlightStruct } from "./grammar/arch/avm";
 import { Struct } from './grammar/struct';
 import { defaultTheme } from "./components/theme";
+import { Body } from "./components/body";
 
 function highlight(code: string) {
   return code
@@ -21,6 +22,46 @@ function highlight(code: string) {
 }
 
 const sampleAssemblyCode : AssemblyCode = [
+  {name: "square(int)"} as Label,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
+  {name: "square(int)"} as Label,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
+  {name: "square(int)"} as Label,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
+  {name: "square(int)"} as Label,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
+  {name: "square(int)"} as Label,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "DWORD PTR [rbp-4], edi"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "eax, DWORD PTR [rbp-4]"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "imul", operands: "eax, eax"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "pop", operands: "rbp"} as Instruction,
+  {address: 0x0, bytes: new Uint8Array([]), mnemonic: "ret", operands: ""} as Instruction,
   {name: "square(int)"} as Label,
   {address: 0x0, bytes: new Uint8Array([]), mnemonic: "push", operands: "rbp"} as Instruction,
   {address: 0x0, bytes: new Uint8Array([]), mnemonic: "mov", operands: "rbp, rsp"} as Instruction,
@@ -63,7 +104,7 @@ export default () => {
   console.log(highlightedAssembly);
   const highlightedCode = highlight(code);
   return (
-    <VStack flex>
+    <Body>
       <Card header="contract">
         <HStack flex>
           <Input placeholder="contract address..." flex/>
@@ -90,6 +131,6 @@ export default () => {
           </TabCard>
         </VStack>
       </HStack>
-    </VStack>
+    </Body>
   );
 };

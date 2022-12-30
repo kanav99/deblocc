@@ -11,6 +11,7 @@ const vstackStyle : React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+    overflowY: 'auto',
 }
 
 export const VStack: React.FC<VStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {

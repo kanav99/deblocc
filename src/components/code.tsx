@@ -19,7 +19,6 @@ const lineNumberStyle : React.CSSProperties = {
     fontWeight: "lighter",
     fontSize: "13px",
     width: '30px',
-    // borderRight: '1px solid gray',
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '5px',
@@ -30,13 +29,11 @@ const lineNumberStyle : React.CSSProperties = {
 
 const containerStyle: React.CSSProperties = {
     backgroundColor: "white",
-    // border: '1px solid gray',
-    overflow: 'scroll',
 }
 
 const lineContainerStyle: React.CSSProperties = {
     height: '15px',
-    // border: '1px solid gray',
+    overflowY: 'visible'
 }
 
 export const Code : React.FC<CodeProps> = ({ value, ...props}) => {

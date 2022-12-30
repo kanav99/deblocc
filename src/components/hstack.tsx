@@ -12,6 +12,7 @@ const hstackStyle : React.CSSProperties = {
     flexDirection: 'row',
     width: '100%',
     height: '100%',
+    overflowY: 'auto',
 }
 
 export const HStack: React.FC<HStackProps> = ({ height, width, spacing, flex, children, style, ...props }) => {
