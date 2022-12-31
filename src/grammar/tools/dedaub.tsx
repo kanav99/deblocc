@@ -1,7 +1,5 @@
 import { Decompiler, DecompilationResult } from './common'
 
-const INFURA_KEY = "918b3d31ca0141bb8fd76be2879394ae";
-
 export class Dedaub implements Decompiler {
     name = "dedaub";
     async decompileByBytecode(bytecode: string): Promise<DecompilationResult> {
@@ -35,18 +33,8 @@ export class Dedaub implements Decompiler {
     }
 
     async decompileByAddress(address: string, network: string): Promise<DecompilationResult> {
-        const res = await fetch(`https://${network}.infura.io/v3/${INFURA_KEY}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                jsonrpc: "2.0",
-                method: "eth_getCode",
-                params: [address, "latest"],
-                id: 1
-            })
-        }).then(res => res.json());
+        const res = await fetch(`/.netlify/functions/infura?address=${address}&network=${network}`).then(res => res.json());
+        console.log(res);
         return this.decompileByBytecode(res.result);
     }
 }
