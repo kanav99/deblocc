@@ -11,7 +11,7 @@ export class Aleopathy implements Decompiler {
     }
 
     async decompileByAddress(address: string, network: string): Promise<DecompilationResult> {
-        const res = await fetch(`http://vm.aleo.org/api/${network}/program/${address}`).then(res => res.json());
+        const res = await fetch(`https://vm.aleo.org/api/${network}/program/${address}`).then(res => res.json());
         // console.log(res);
         // remove empty lines
         const assembly = res.split("\n").filter((line : string) => line !== "");
