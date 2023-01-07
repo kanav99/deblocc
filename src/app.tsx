@@ -16,6 +16,7 @@ import { sampleAssemblyCode, sampleCode, sampleStructs } from "./sample"
 import { Modal } from "./components/modal";
 import { Text } from "./components/text";
 import { Dedaub } from "./grammar/tools/dedaub";
+import { Aleopathy } from "./grammar/tools/aleopathy";
 
 const StructListView = (props: {structs: Struct[]}) => {
   const [selectedStruct, setSelectedStruct] = React.useState(0);
@@ -33,13 +34,17 @@ const StructListView = (props: {structs: Struct[]}) => {
 }
 
 const targets = [
-  "evm"
+  "ethereum",
+  "aleo",
 ]
 
 // for each target, we have a list of decompilers
 const decompilers = [
   [
     new Dedaub(),
+  ],
+  [
+    new Aleopathy(),
   ]
 ]
 
@@ -48,6 +53,9 @@ const networks = [
   [
     "goerli",
     "mainnet",
+  ],
+  [
+    "testnet3",
   ]
 ]
 
@@ -65,6 +73,12 @@ const useCachedState = (key: string, defaultValue: any) => {
   }, [value]);
 
   return [value, setValue];
+}
+
+function buf2hex(buffer: ArrayBuffer) { // buffer is an ArrayBuffer
+  return [...new Uint8Array(buffer)]
+      .map(x => x.toString(16).padStart(2, '0'))
+      .join('');
 }
 
 export default () => {
@@ -127,6 +141,39 @@ export default () => {
               }
               // setStructs(result.structs);
             }}/>
+            <Text style={{fontFamily: defaultTheme.font.family, marginLeft: '10px'}}>or</Text>
+            <Input type={"file"} placeholder="load contract..." onChange={(e) => {
+              setIsDecompiling(true);
+              // @ts-ignore
+              const file = e.target.files[0];
+              const reader = new FileReader();
+
+              reader.onload = async (event) => {
+                setIsDecompiling(false);
+                try {
+                  // @ts-ignore
+                  const result = await decompilers[target][decompiler].decompileByBytecode(buf2hex(event.target.result));
+                  setCode(result.code);
+                  setIsDecompiling(false);
+                  setDisassembly(result.assembly);
+                }
+                catch(e) {
+                  console.log(e);
+                  alert("Failed to decompile contract, check contract address and network. Check out console for more logs.")
+                  setCode('');
+                  setDisassembly([]);
+                  setIsDecompiling(false);
+                }
+              };
+
+              reader.onerror = (err) => {
+                setIsDecompiling(false);
+                console.log(err);
+              };
+
+              reader.readAsArrayBuffer(file);
+
+            }}/>
           </HStack>
         </Card>
         <Card header="options">
@@ -157,6 +204,7 @@ export default () => {
         <VStack style={{justifyContent: 'space-between'}}>
           <VStack>
             <Card header="decompilers">
+              <VStack>
               {targets.map((target, index) => {
                 return <HStack key={`${index}`}>
                     <Text>{target}: </Text>
@@ -172,6 +220,7 @@ export default () => {
                     </select>
                   </HStack>
               })}
+              </VStack>
             </Card>
           </VStack>
           {/* <HStack style={{justifyContent: 'right'}}>
