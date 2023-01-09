@@ -1,0 +1,12 @@
+{
+  "name": "aleopath",
+  "version": "0.1.0",
+  "files": [
+    "aleopath_bg.wasm",
+    "aleopath.js",
+    "aleopath.d.ts"
+  ],
+  "module": "aleopath.js",
+  "types": "aleopath.d.ts",
+  "sideEffects": false
+}

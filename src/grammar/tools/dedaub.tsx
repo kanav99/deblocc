@@ -1,8 +1,14 @@
 import { Decompiler, DecompilationResult } from './common'
 
+function buf2hex(buffer: ArrayBuffer) { // buffer is an ArrayBuffer
+    return [...new Uint8Array(buffer)]
+        .map(x => x.toString(16).padStart(2, '0'))
+        .join('');
+}
+
 export class Dedaub implements Decompiler {
     name = "dedaub";
-    async decompileByBytecode(bytecode: string): Promise<DecompilationResult> {
+    async decompileByHex(bytecode: string): Promise<DecompilationResult> {
         const res = await fetch(`https://library.dedaub.com/api/on_demand/`, {
             method: 'POST',
             headers: {
@@ -35,6 +41,10 @@ export class Dedaub implements Decompiler {
     async decompileByAddress(address: string, network: string): Promise<DecompilationResult> {
         const res = await fetch(`/.netlify/functions/infura?address=${address}&network=${network}`).then(res => res.json());
         console.log(res);
-        return this.decompileByBytecode(res.result);
+        return this.decompileByHex(res.result);
+    }
+
+    async decompileByBytecode(bytecode: ArrayBuffer): Promise<DecompilationResult> {
+        return this.decompileByHex(buf2hex(bytecode));
     }
 }

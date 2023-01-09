@@ -17,6 +17,7 @@ import { Modal } from "./components/modal";
 import { Text } from "./components/text";
 import { Dedaub } from "./grammar/tools/dedaub";
 import { Aleopathy } from "./grammar/tools/aleopathy";
+import { FileInput } from "./components/fileinput";
 
 const StructListView = (props: {structs: Struct[]}) => {
   const [selectedStruct, setSelectedStruct] = React.useState(0);
@@ -75,12 +76,6 @@ const useCachedState = (key: string, defaultValue: any) => {
   return [value, setValue];
 }
 
-function buf2hex(buffer: ArrayBuffer) { // buffer is an ArrayBuffer
-  return [...new Uint8Array(buffer)]
-      .map(x => x.toString(16).padStart(2, '0'))
-      .join('');
-}
-
 export default () => {
   const [disassembly, setDisassembly] = useCachedState("disassembly", sampleAssemblyCode);
   const [code, setCode] = useCachedState("code", sampleCode);
@@ -95,7 +90,6 @@ export default () => {
 
   const highlightedAssembly = highlightAssembly(disassembly);
   const highlightedCode = highlightCode(code);
-  console.log(network)
   
   return (
     <Body>
@@ -141,18 +135,21 @@ export default () => {
               }
               // setStructs(result.structs);
             }}/>
-            <Text style={{fontFamily: defaultTheme.font.family, marginLeft: '10px'}}>or</Text>
-            <Input type={"file"} placeholder="load contract..." onChange={(e) => {
-              setIsDecompiling(true);
+            <Text>or</Text>
+            <FileInput placeholder="load contract..." onChange={(e) => {
               // @ts-ignore
               const file = e.target.files[0];
+              if (!file) {
+                return;
+              }
+              setIsDecompiling(true);
               const reader = new FileReader();
 
               reader.onload = async (event) => {
                 setIsDecompiling(false);
                 try {
                   // @ts-ignore
-                  const result = await decompilers[target][decompiler].decompileByBytecode(buf2hex(event.target.result));
+                  const result = await decompilers[target][decompiler].decompileByBytecode(event.target.result);
                   setCode(result.code);
                   setIsDecompiling(false);
                   setDisassembly(result.assembly);
