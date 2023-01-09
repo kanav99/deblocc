@@ -1,5 +1,5 @@
 import { Decompiler, DecompilationResult } from './common'
-import init, { disassemble } from 'aleopath';
+import init, { disassemble, decompile } from 'aleopath';
 import { Label, Instruction } from '../assembly';
 
 const fromHexString = (hexString : string) =>
@@ -29,6 +29,7 @@ export class Aleopathy implements Decompiler {
             console.log('initialized aleopath');
         }
         const res = disassemble(toHexString(bytecode));
+        const code = decompile(toHexString(bytecode))
         const assembly = res.split("\n").filter((line : string) => line !== "");
         return {
             assembly: assembly.map((line: string, idx: number) => {
@@ -53,7 +54,7 @@ export class Aleopathy implements Decompiler {
                         } as Instruction;
                     }
                 }),
-            code: ""
+            code: code
         }
     }
 

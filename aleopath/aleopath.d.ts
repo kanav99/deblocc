@@ -5,12 +5,18 @@
 * @returns {string}
 */
 export function disassemble(bytes: string): string;
+/**
+* @param {string} bytes
+* @returns {string}
+*/
+export function decompile(bytes: string): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly disassemble: (a: number, b: number, c: number) => void;
+  readonly decompile: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
