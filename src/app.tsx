@@ -185,17 +185,17 @@ export default () => {
           </Card>
         </VStack>
         <VStack flex>
-          <Card style={{ height: "50%", resize: "vertical"}} header="source">
+          <Card header="source" flex>
             <Code value={highlightedCode} selectColor="#cefad0"/>
           </Card>
-          <TabCard flex>
+          {/* <TabCard flex>
             <Tab header="types">
               <StructListView structs={structs} />
             </Tab>
             <Tab header="symbols">
               <Code value={"todo"} />
             </Tab>
-          </TabCard>
+          </TabCard> */}
         </VStack>
       </HStack>
       <Modal show={isSettingsOpen} heading={'settings'} onClose={() => {setIsSettingsOpen(false)}}>
