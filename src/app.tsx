@@ -139,6 +139,7 @@ export default () => {
             <FileInput placeholder="load contract..." onChange={(e) => {
               // @ts-ignore
               const file = e.target.files[0];
+              setContractAddress("");
               if (!file) {
                 return;
               }
